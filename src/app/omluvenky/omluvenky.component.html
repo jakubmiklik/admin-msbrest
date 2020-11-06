@@ -1,0 +1,8 @@
+<div *ngFor="let child of getActualAbsence()">
+    <div *ngIf="child.absence.length > 0">
+        {{child.childName}}
+    </div>
+    <div *ngFor="let item of child.absence">
+        {{(item.dateFrom | date:'yyyy-MM-dd') + ' - ' + (item.dateTo | date:'yyyy-MM-dd') + ' - ' + item.text}}
+    </div>
+</div>

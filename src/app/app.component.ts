@@ -22,8 +22,16 @@ export class AppComponent implements OnDestroy {
     password: new FormControl()
   })
 
-  constructor(public fireAuth: AngularFireAuth, public firestore: AngularFirestore, public cookie: CookieService, public router: Router){
+  links = [
+    {link: '', name: 'Domů'},
+    {link: '/omluvenky', name: 'Omluvenky'},
+    {link: '/aktuality', name: 'Aktuality'},
+    {link: '/dokumenty', name: 'Dokumenty'},
+    {link: '/fotogalerie', name: 'Fotogalerie'},
+    {link: '/mesicni-plan', name: 'Měsíční plány'}
+  ]
 
+  constructor(public fireAuth: AngularFireAuth, public firestore: AngularFirestore, public cookie: CookieService, public router: Router){
     if(cookie.check('token')){
       this.subscription = fireAuth.user.subscribe(user => {
         this.loggedIn = user.refreshToken === cookie.get('token') ? true : false;

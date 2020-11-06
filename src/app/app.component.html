@@ -1,20 +1,33 @@
-<ng-container *ngIf="isAdmin && loggedIn else elseTemplate">
-  <header>Vítaj</header>
-  <router-outlet></router-outlet>
-</ng-container>
-<ng-template #elseTemplate>
-  <div class="login-container flex align-items-center justify-content-center">
-    <form [formGroup]="loginForm" class="box flex align-items-center justify-content-center column">
-      <label class="form-item">
-        <div>E-mail</div>
-        <input type="text" formControlName="email" autocomplete="email" autofocus required>
-      </label>
-    
-      <label class="form-item">
-        <div>Password</div>
-        <input type="password" formControlName="password" autocomplete="current-password" required>
-      </label>
-      <button class="btn-primary" (click)="onSubmit()">Přihlásit se</button>
-    </form>
-  </div>
-</ng-template>
+<div class="container flex align-items-center justify-content-center">
+  <ng-container *ngIf="isAdmin && loggedIn else elseTemplate">
+    <div class="box main">
+      <header>
+        <nav class="flex align-items-center justify-content-center">
+          <ul class="nav-list flex align-items-center justify-content-center">
+            <li class="nav-item" *ngFor="let item of links">
+              <a class="flex align-items-center" [routerLink]="item.link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">{{item.name}}</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <div class="">
+      <form [formGroup]="loginForm" class="box login-form flex align-items-center justify-content-center column">
+        <label class="form-item">
+          <div>E-mail</div>
+          <input type="text" formControlName="email" autocomplete="email" autofocus required>
+        </label>
+        <label class="form-item">
+          <div>Password</div>
+          <input type="password" formControlName="password" autocomplete="current-password" required>
+        </label>
+        <button class="btn-primary" (click)="onSubmit()">Přihlásit se</button>
+      </form>
+    </div>
+  </ng-template>
+</div>

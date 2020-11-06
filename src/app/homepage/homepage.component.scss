@@ -1,0 +1,31 @@
+.big-number{
+    color: rgb(194, 7, 38);
+    font-size: 48pt;
+    margin-top: 5px;
+}
+.light{
+    font-weight: 300;
+    color: #333;
+}
+.second{
+    margin-top: 20px;
+}
+.bold{
+    font-weight: 600;
+    color: #333;
+}
+.wrapper{
+    height: 100%;
+}
+.widget-link{
+    text-decoration: none;
+    transition: 350ms;
+    &:hover{
+        transform: scale(1.1);
+    }
+    i{
+        font-size: 64px;
+        margin-top: 15px;
+        color: #888;
+    }
+}

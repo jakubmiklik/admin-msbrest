@@ -1,0 +1,70 @@
+<div class="flex">
+    
+    <app-widget [size]="'s'">
+        <div class="content flex align-items-center justify-content-center">
+            <div class="wrapper flex column">
+                <div class="flex justify-content-center bold">{{calendar.day | day}}</div>
+                <div class="flex justify-content-center big-number">{{calendar.dayOfMonth}}</div>
+                <div class="flex justify-content-center light">{{calendar.month | month}}</div>
+            </div>
+        </div>
+    </app-widget>
+    
+    <a routerLink="/omluvenky" class="widget-link">
+        <app-widget [size]="'s'">
+            <div class="content flex align-items-center justify-content-center">
+                    <div class="wrapper flex column">
+                        <div class="flex justify-content-center bold">{{absenceText}}</div>
+                        <div class="flex justify-content-center big-number">{{getActualAbsence()}}</div>
+                    </div>  
+            </div>
+        </app-widget>
+    </a>
+
+    <a routerLink="/aktuality" class="widget-link">
+        <app-widget [size]="'s'">
+            <div class="content flex align-items-center justify-content-center">
+                    <div class="wrapper flex column align-items-center">
+                        <div class="flex justify-content-center bold">Aktuality</div>
+                        <i class="material-icons">fiber_new</i>
+                    </div>  
+            </div>
+        </app-widget>
+    </a>
+
+    <a routerLink="/dokumenty" class="widget-link">
+        <app-widget [size]="'s'">
+            <div class="content flex align-items-center justify-content-center">
+                    <div class="wrapper flex column align-items-center">
+                        <div class="flex justify-content-center bold">Dokumenty</div>
+                        <i class="material-icons">insert_drive_file</i>
+                    </div>  
+            </div>
+        </app-widget>
+    </a>
+
+    <a routerLink="/fotogalerie" class="widget-link">
+        <app-widget [size]="'s'">
+            <div class="content flex align-items-center justify-content-center">
+                    <div class="wrapper flex column align-items-center">
+                        <div class="flex justify-content-center bold">Fotogalerie</div>
+                        <i class="material-icons">photo_album</i>
+                    </div>  
+            </div>
+        </app-widget>
+    </a>
+
+    <a routerLink="/mesicni-plany" class="widget-link">
+        <app-widget [size]="'s'">
+            <div class="content flex align-items-center justify-content-center">
+                    <div class="wrapper flex column align-items-center">
+                        <div class="flex justify-content-center bold">Měsíční plány</div>
+                        <i class="material-icons">event</i>
+                    </div>  
+            </div>
+        </app-widget>
+    </a>
+
+
+    
+</div>
