@@ -1,0 +1,54 @@
+<div class="container" *ngIf="this.formData">
+  <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+    <div class="formGroup">
+      <input id="id" name="id" #id="ngModel" [(ngModel)]="formData.id" type="text" hidden>
+    </div>
+    <div class="formGroup">
+      <label for="title">Zadejte měsíc</label>
+      <input id="title" name="title" #title="ngModel" [(ngModel)]="formData.title" type="text" placeholder="Zadejte název novinky">
+    </div>
+    <div class="formGroup">
+      <label for="editor">Obsah novinky</label>
+      <ckeditor
+      id="editor"
+      name="article"
+      [editor]="this.Editor"
+      #text="ngModel"
+      [(ngModel)]="formData.text"
+      [config]="{
+        toolbar: [ 'heading', '|', 'bold', 'italic' ],
+        placeholder: 'Zde zadejte text...'
+      }"
+      tagName="textarea">
+    </ckeditor>
+    </div>
+    <div class="formGroup">
+      <label for="upload">
+        <input type="button" class="upload" [value]="inputText" (click)="uploadInputClick()">
+      </label>
+      <input value="" type="file" accept=".png,.jpg" placeholder="Vyberte soubor" id="upload" (change)="editPhotos($event)" multiple/>
+      <div *ngIf="complete !== undefined">
+        <div *ngFor="let item of complete" style="width: 300px;">
+           Nahrávání: <mat-progress-bar mode="determinate" [value]="item"></mat-progress-bar> {{item}} %
+          </div>
+      </div>
+    </div>
+    <div *ngIf="formData.photos.length !== 0" class="formGroup images-container flex">
+      <div *ngFor="let photo of formData.photos; let i = index" class="image-item flex">
+        <div class="image">
+          <img [src]="photo">
+        </div>
+        <div class="button-remove">
+          <button id="remove" type="button" (click)="removePhoto(i)">Smazat</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="formGroup">
+      <button id="edit" type="submit">Uložit</button>
+
+    </div>
+  </form>
+  <button id="back" routerLink="/novinky">Zpět</button>
+</div>
+

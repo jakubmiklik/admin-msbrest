@@ -28,7 +28,7 @@ export class AppComponent implements OnDestroy {
     {link: '/aktuality', name: 'Aktuality'},
     {link: '/dokumenty', name: 'Dokumenty'},
     {link: '/fotogalerie', name: 'Fotogalerie'},
-    {link: '/mesicni-plan', name: 'Měsíční plány'}
+    {link: '/mesicni-plany', name: 'Měsíční plány'}
   ]
 
   constructor(public fireAuth: AngularFireAuth, public firestore: AngularFirestore, public cookie: CookieService, public router: Router){

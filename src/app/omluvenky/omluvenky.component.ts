@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-omluvenky',
@@ -12,7 +11,7 @@ export class OmluvenkyComponent implements OnInit {
   users: User[] = [];
   
   constructor(public firestore: AngularFirestore) {
-
+    console.log(new Date(new Date(Date.now()).setHours(23, 59, 59)).getTime());
    }
 
   ngOnInit(): void {
@@ -44,11 +43,11 @@ export class OmluvenkyComponent implements OnInit {
 
   getActualAbsence(){
     let array: ArrayToDisplay[] = [];
-      this.users.forEach((user, indexUser) => {
-        user.children.forEach((child, index) => {
+      this.users.forEach((user) => {
+        user.children.forEach((child) => {
           array.push({childName: child.name, absence: []});
           array[array.length - 1].absence = child.absence.filter((a)=> {
-            return a.dateTo >= (new Date(new Date(Date.now()).setHours(23, 59, 59)).getTime()) && a.dateFrom <= Date.now()
+            return (new Date(new Date(a.dateTo).setHours(23,59, 59, 999)).getTime() >= (new Date(new Date(Date.now()).setHours(23, 59, 59, 999)).getTime()) && a.dateFrom <= Date.now())
           })
         })
       })

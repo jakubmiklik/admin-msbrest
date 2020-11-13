@@ -71,7 +71,7 @@ export class HomepageComponent implements OnInit {
         user.children.forEach((child, index) => {
           array.push({childName: child.name, absence: []});
           array[array.length - 1].absence = child.absence.filter((a)=> {
-            return a.dateTo >= (new Date(new Date(Date.now()).setHours(23, 59, 59)).getTime()) && a.dateFrom <= Date.now()
+            return (new Date(new Date(a.dateTo).setHours(23,59, 59, 999)).getTime() >= (new Date(new Date(Date.now()).setHours(23, 59, 59, 999)).getTime()) && a.dateFrom <= Date.now())
           })
 
         })
