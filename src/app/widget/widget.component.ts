@@ -9,6 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class WidgetComponent implements OnInit {
 
   @Input() size: string;
+  @Input() image: boolean;
   constructor() { }
 
   ngOnInit(): void {

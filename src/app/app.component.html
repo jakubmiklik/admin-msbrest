@@ -1,15 +1,38 @@
 <div class="container flex align-items-center justify-content-center">
   <ng-container *ngIf="isAdmin && loggedIn else elseTemplate">
     <div class="box main">
-      <header>
-        <nav class="flex align-items-center justify-content-center">
-          <ul class="nav-list flex align-items-center justify-content-center">
-            <li class="nav-item" *ngFor="let item of links">
-              <a class="flex align-items-center" [routerLink]="item.link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">{{item.name}}</a>
+      <header class="flex justify-content-space-between" [ngClass]="{'opened': show}">
+        <ng-container *ngIf="device || width < 1300; else elseTemplate">
+          <div class="mobile-wrapper flex align-items-center justify-content-space-between">
+            <div class="menu-icon flex align-items-center" (click)="toggle()">
+              <i class="material-icons">menu</i>
+            </div>
+          </div>
+          <div class="mobile-navigation-wrapper" [@menu]="stateName">
+            <ul class="mobile-navigation flex column align-items-center justify-content-space-between">
+              <li class="flex link align-items-center justify-content-center" *ngFor="let item of links" [routerLinkActive]="item.link ? ['active'] : []" [routerLinkActiveOptions]="{exact: true}">
+                <a (click)="toggle()" [routerLink]="item.link">{{item.name}}</a>
+              </li>
+            </ul>
+          </div>
+        </ng-container>
+        <!--   PC   -->
+        <ng-template #elseTemplate>
+          <ul class="navigation flex align-items-center justify-content-space-between">
+            <li class="flex link align-items-center" *ngFor="let item of links" [routerLinkActive]="item.link ? ['active'] : []" [routerLinkActiveOptions]="{exact: true}">
+              <a class="flex align-items-center" [routerLink]="item.link ? [item.link] : []">{{item.name}}</a>
             </li>
           </ul>
-        </nav>
+          <div class="user-wrapper flex align-items-center justify-content-flex-end">
+            <a class="link flex align-items-center" (click)="this.logOut();">
+              <div class="signOut flex align-items-center">
+                <i class="material-icons">power_settings_new</i>
+              </div>
+            </a>
+          </div>
+        </ng-template>
       </header>
+      <div id="bg" [ngClass]="{'show': show}" (click)="toggle()"></div>
       <div class="content-wrapper">
         <router-outlet></router-outlet>
       </div>

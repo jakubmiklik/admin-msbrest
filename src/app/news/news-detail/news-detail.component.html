@@ -1,0 +1,52 @@
+<div class="" *ngIf="formData">
+  <form #form="ngForm" autocomplete="off" (submit)="onSubmit()">
+    <div class="formGroup">
+      <input id="id" name="id" #id="ngModel" [(ngModel)]="formData.id" type="text" hidden>
+    </div>
+    <div class="formGroup">
+      <label for="title">Název novinky</label>
+      <input id="title" name="title" #title="ngModel" [(ngModel)]="formData.title" type="text" placeholder="Zadejte název novinky">
+    </div>
+    <div class="formGroup">
+      <label for="editor">Obsah novinky</label>
+      <ckeditor
+        id="editor"
+        name="article"
+        [editor]="this.Editor"
+        #text="ngModel"
+        [(ngModel)]="formData.text"
+        [config]="{
+        toolbar: [ 'heading', '|', 'bold', 'italic' ],
+        placeholder: 'Zde zadejte text...'
+        }"
+        tagName="textarea">
+    </ckeditor>
+    </div>
+    <div class="formGroup">
+      <label for="upload">
+        <input type="button" class="upload" [value]="inputText" (click)="uploadInputClick()">
+      </label>
+      <input value="" type="file" accept=".png,.jpg,.jpeg,.gif,.doc,.docx,.pdf,.txt," placeholder="Vyberte soubor" id="upload" (change)="editFiles($event)" multiple/>
+      <div *ngIf="complete !== undefined">
+          <div *ngFor="let item of complete" style="width: 300px;">
+            Nahrávání: <mat-progress-bar mode="determinate" [value]="item"></mat-progress-bar> {{item}} %
+          </div>
+      </div>
+    </div>
+    <div *ngIf="formData.files.length !== 0" class="formGroup images-container flex">    
+      <div *ngFor="let document of formData.files; let i = index" class="image-item flex">
+        <div class="image flex align-items-center">
+          <img [src]="document">
+          <div *ngIf="document === undefined"></div>
+        </div>
+        <div class="button-remove">
+          <button id="remove" class="btn-secondary" type="button" (click)="removeFile(i)">Smazat</button>
+        </div>
+      </div>
+    </div>
+    <div class="flex button-section justify-content-space-between">
+      <button id="back" class="btn-secondary" routerLink="/aktuality">Zpět</button>
+      <button class="btn-primary" type="submit">Uložit</button>
+    </div>
+  </form>
+</div>

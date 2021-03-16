@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Odstranění uživatele {{data.displayName}}</h1>
+<div mat-dialog-content>Opravdu chcete odstranit uživatele?</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Zrušit</button>
+  <button 
+    id="remove" 
+    mat-button 
+    mat-dialog-close 
+    (click)="userService.removeUser(data.uid)" 
+    cdkFocusInitial>Ano, odstranit</button>
+</div>

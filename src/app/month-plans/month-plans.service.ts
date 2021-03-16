@@ -38,7 +38,7 @@ export class MonthPlansService {
     this.db.collection('month-plan').doc(data.id).set(data);
   }
 
-  removeNovelty(id: string) {
+  removeItemFromList(id: string) {
     this.db.doc('month-plan/' + id).delete();
   }
 

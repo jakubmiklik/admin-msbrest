@@ -1,0 +1,42 @@
+<h1>Úprava uživatele</h1>
+<div class="container">
+  <ng-container *ngIf="!addUser && user; else elseTemplate">
+    <div class="formGroup">
+      <label for="email">E-mail</label>
+      <input type="email" [formControl]="email">
+    </div>
+    <div class="formGroup">
+      <label for="firstName">Křestní jméno</label>
+      <input type="text" [formControl]="firstName">
+    </div>
+    <div class="formGroup">
+      <label for="lastName">Příjmení</label>
+      <input type="text" [formControl]="lastName">
+    </div>
+    <h3>Děti</h3>
+    <div class="formGroup" *ngFor="let item of user.children; let i = index">
+      <label [for]="i">Jméno a příjmení dítěte</label>
+      <div class="flex align-items-center">
+        <input [id]="i" type="text" [formControl]="item.formControl">
+        <div class="close" (click)="deleteChild(i)">
+          <i class="material-icons red">close</i>
+        </div>
+      </div>
+    </div>
+    <div class="formGroup">
+      <div class="add-button flex align-items-center" (click)="addChild()">
+        <i class="material-icons add">add</i>
+        <span>Přidat dítě</span>
+      </div>
+    </div>
+    <div class="formGroup">
+      <button (click)="saveUser()" class="btn-primary">Uložit uživatele</button>
+    </div>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <div>
+      <div class="label-load">Načítání uživatele</div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-template>
+</div>

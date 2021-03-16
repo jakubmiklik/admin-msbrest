@@ -1,8 +1,34 @@
-<div *ngFor="let child of getActualAbsence()">
-    <div *ngIf="child.absence.length > 0">
-        {{child.childName}}
+<div>
+    <h1>Seznam absencí</h1>
+    <div class="flex">
+        <select name="period" [value]="'present'" id="period" (change)="period = getSelectedOption($event)">
+            <option value="past">Uplynulé absence</option>
+            <option value="present">Aktuální absence</option>
+            <option value="future">Budoucí absence</option>
+        </select>
     </div>
-    <div *ngFor="let item of child.absence">
-        {{(item.dateFrom | date:'yyyy-MM-dd') + ' - ' + (item.dateTo | date:'yyyy-MM-dd') + ' - ' + item.text}}
+    <div>
+        <div [ngSwitch]="filteredAbsence.length > 0">
+            <div *ngSwitchCase="true">
+                <table>
+                    <tr>
+                        <th>Jméno</th>
+                        <th>Od</th>
+                        <th>Do</th>
+                        <th>Doplňující text</th>
+                    </tr>
+                    <tr *ngFor="let item of filteredAbsence">
+                        <td>{{item.childName}}</td>
+                        <td>{{item.dateFrom | date:'dd. MM. yyyy'}}</td>
+                        <td>{{item.dateTo | date:'dd. MM. yyyy'}}</td>
+                        <td>{{item.text}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="flex" *ngSwitchCase="false">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </div>
+        </div>
+        
     </div>
 </div>

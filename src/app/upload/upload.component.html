@@ -1,0 +1,27 @@
+<form autocomplete="off">
+    <div class="formGroup">
+        <label for="upload">
+            <input type="button" class="upload" [value]="inputText" (click)="uploadInputClick()">
+        </label>
+        <input value="" type="file" [accept]="acceptFileTypes" id="upload" (change)="files($event)" multiple/>
+        <div class="flex" *ngFor="let file of filesArray; let i=index">
+            <div>{{file.file.name}}</div>
+            <div>
+                <input type="text" name="newSubCategory" id="newSubCategory" [value]="file.category" (change)="getTextValue($event, i)">
+            </div>
+            <div>
+                <label class="checkbox-label flex" (change)="getValue($event, i)">
+                <input type="checkbox">
+                <span class="checkbox-custom"></span>
+                </label>
+                <div class="input-title">Pouze pro přihlášené uživatele?</div>
+            </div>
+            <div>
+                <button id="remove" (click)="removeFile(i)">Smazat</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button class="btn-primary" (click)="fireStorageService.uploadFiles(filesArray)">Nahrát soubory</button>
+    </div>
+</form>

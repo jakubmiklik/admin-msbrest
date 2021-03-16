@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-omluvenky',
@@ -8,71 +8,33 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class OmluvenkyComponent implements OnInit {
 
-  users: User[] = [];
+  period = 'present';
+  absence = [];
+
+  get filteredAbsence(){
+    return this.absence.filter(abs => {
+      const now = new Date().getTime();
+      switch (this.period) {
+        case 'past':
+          return abs.dateTo < now;
+        case 'present':
+          return abs.dateFrom < now && abs.dateTo >= now;
+        case 'future':
+          return abs.dateFrom > now;
+      }
+    })
+  }
+
+  constructor(public http: HttpClient) { }
+
+  async ngOnInit() {
+    this.absence = (await this.http.get('https://us-central1-skolka-brest.cloudfunctions.net/app/users/children/getAllAbsence').toPromise() as any[]);
+  }
+
   
-  constructor(public firestore: AngularFirestore) {
-    console.log(new Date(new Date(Date.now()).setHours(23, 59, 59)).getTime());
-   }
 
-  ngOnInit(): void {
-    
-    this.firestore.collection('users').ref.get().then((users) => {
-      users.docs.forEach((user,index)=> {
-        this.users[index] = {uid: user.get('uid'), children: []};
-      })
-    }).finally(()=>{
-      this.users.forEach((user, index) => {
-        this.firestore.collection(`users/${user.uid}/children`).ref.get().then((children)=>{
-          children.docs.forEach((child, index2) => {
-            this.users[index].children[index2] = {...child.data() as Child, absence: []};
-          })
-        }).finally(async () =>{
-          this.users.forEach((user)=>{
-            user.children.forEach((child) => {
-              this.firestore.collection(`users/${user.uid}/children/${child.id}/absence`).ref.get().then((absence)=> {
-                absence.docs.forEach((item, index3) => {
-                  child.absence[index3] = item.data() as Absence;
-                })
-              })
-            })
-          })  
-        })
-      })
-    });
+  getSelectedOption(event: Event): string {
+    const element = event.target as HTMLSelectElement;
+    return element.value;
   }
-
-  getActualAbsence(){
-    let array: ArrayToDisplay[] = [];
-      this.users.forEach((user) => {
-        user.children.forEach((child) => {
-          array.push({childName: child.name, absence: []});
-          array[array.length - 1].absence = child.absence.filter((a)=> {
-            return (new Date(new Date(a.dateTo).setHours(23,59, 59, 999)).getTime() >= (new Date(new Date(Date.now()).setHours(23, 59, 59, 999)).getTime()) && a.dateFrom <= Date.now())
-          })
-        })
-      })
-    return array;
-  }
-}
-
-export interface ArrayToDisplay{
-  childName: string;
-  absence: Absence[];
-}
-
-export interface Absence {
-  dateFrom: number;
-  dateTo: number;
-  text: string;
-}
-
-export interface Child {
-  id: string;
-  name: string;
-  absence?: Absence[];
-}
-
-export interface User {
-  uid: string;
-  children?: Child[];
 }

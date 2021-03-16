@@ -1,0 +1,36 @@
+table{
+  min-width: 50%;
+  text-align: left;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+tr > td:not(td:last-of-type){
+  width: 20%;
+}
+
+tr > td:last-of-type {
+  width: 60%;
+}
+
+table, th, td {
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+tr > th{
+  background-color: #f2f3f4;
+}
+
+h1{
+  margin-bottom: 10px;
+}
+
+select{
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  &:focus{
+    outline: none;
+  }
+}
