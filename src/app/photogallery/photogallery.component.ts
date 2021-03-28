@@ -15,22 +15,18 @@ export class PhotogalleryComponent implements OnInit {
 
   constructor(public fireStorageService: FireStorageService, public activatedRoute: ActivatedRoute) { }
 
-  ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
-      params.get('category')? this.path = decodeURI(params.get('category')) : this.path = 'Photogallery';
-      this.fireStorageService.getLists(this.path).then(cat => {
-        if(cat.prefixes){
-          this.folders = cat.prefixes;
-        }
-        if(cat.items){
-          cat.items.forEach(e => {
-            e.getDownloadURL().then(f=> {
-              this.photos.push(f);
-            })
-          })
-        }
+  async ngOnInit() {
+    const param = (await this.activatedRoute.paramMap.toPromise()).get('category');
+    this.path = param ? decodeURI(param) : 'Photogallery';
+    const list = await this.fireStorageService.getLists(this.path)
+    if(list.prefixes){
+      this.folders = list.prefixes;
+    }
+    if(list.items){
+      list.items.forEach(async (item) => {
+        this.photos.push({name: item.name, src: await item.getDownloadURL()});
       });
-    });
+    }
   }
 
 }

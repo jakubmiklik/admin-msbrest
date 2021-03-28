@@ -13,15 +13,8 @@ export type FileType = 'document' | 'image';
 export class UploadComponent implements OnInit {
 
   @Input() FileType: FileType;
-  get inputText() {
-    switch (this.FileType) {
-      case 'document':
-        return 'Přidat dokument';
-  
-      case 'image':
-        return 'Přidat obrázek';
-    }
-  }
+  inputText = 'Přidat soubor';
+
   get acceptFileTypes() {
     switch (this.FileType) {
       case 'document':
@@ -31,7 +24,7 @@ export class UploadComponent implements OnInit {
         return '.jpg,.jpeg,.png,.gif';
     }
   }
-  category: string;
+  path: string;
   filesArray: FileParameters[] = [];
 
   constructor(
@@ -40,18 +33,9 @@ export class UploadComponent implements OnInit {
     public activatedRoute: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
-      params.get('category')? this.category = decodeURI(params.get('category')) : this.category = 'Documents';
-    });
-  }
-
-  encodeURI(category: string){
-    return encodeURI(category);
-  }
-
-  decodeURI(string: string){
-    return decodeURI(string);
+  async ngOnInit() {
+    const param = (await this.activatedRoute.paramMap.toPromise()).get('category');
+    this.path = param ? decodeURI(param) : 'Documents';
   }
 
   uploadInputClick() {
@@ -72,18 +56,18 @@ export class UploadComponent implements OnInit {
     for(let i = 0; i < files.length; i++){
       const file = files.item(i);
       if(this.filesArray !== undefined || this.filesArray[i] !== undefined){
-        if(!this.filesArray.includes({file: files.item(i)})){
-          this.filesArray.push({file: file, category: this.category, private: false});
+        if(!this.filesArray.includes({file: file})){
+          this.filesArray.push({file: file, category: this.path, private: false});
         }
       } else {
-        this.filesArray.push({file: file, category: this.category, private: false});
+        this.filesArray.push({file: file, category: this.path, private: false});
       } 
     }
   }
 
   removeFile(index: number){
-    const deletedFile: string = this.filesArray[index].file.name;
-    this._snackBar.open(`Soubor ${deletedFile} odstraněn`, null,{
+    const deletedFile = this.filesArray[index].file.name;
+    this._snackBar.open(`Soubor ${deletedFile} odstraněn`, null, {
       duration: 3000,
       horizontalPosition: 'end',
       verticalPosition: 'bottom'

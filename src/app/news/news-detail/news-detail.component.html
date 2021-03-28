@@ -34,10 +34,14 @@
       </div>
     </div>
     <div *ngIf="formData.files.length !== 0" class="formGroup images-container flex">    
-      <div *ngFor="let document of formData.files; let i = index" class="image-item flex">
-        <div class="image flex align-items-center">
-          <img [src]="document">
-          <div *ngIf="document === undefined"></div>
+      <div *ngFor="let file of formData.files; let i = index" class="image-item flex">
+        <div class="image flex align-items-center" *ngIf="file !== undefined">
+          <div *ngIf="file.type.includes('image')">
+            <img [src]="file.src">
+          </div>
+          <div *ngIf="file.type.includes('document')">
+            <a [href]="file.src">{{file.name}}</a>
+          </div>
         </div>
         <div class="button-remove">
           <button id="remove" class="btn-secondary" type="button" (click)="removeFile(i)">Smazat</button>

@@ -8,11 +8,17 @@ interface State {
   state: number[];
 }
 
+export interface FileInfo{
+  type: string;
+  src: string;
+  name: string;
+}
+
 export interface News {
   id?: string;
   title: string;
   text: string;
-  files: string[];
+  files: FileInfo[];
   date?: number;
 }
 
@@ -46,9 +52,33 @@ export class NewsService {
 
   getFilesFromInput(event: Event): FileList {
     return (event.target as HTMLInputElement).files;
-  } // v pořádku
+  }
 
+  addFile(files: FileList, id: string) {
 
+    return new Observable<State>((observer) => {
+      const arrayOfUrls = [];
+      const complete = [];
+      for (let i = 0; i < files.length; i++) {
+        const ref = `articles/${id}/${files.item(i).name}`;
+        const storageRef = this.storage.ref(ref);
+        const task = storageRef.put(files.item(i), {contentType: files.item(i).type});
+        task.percentageChanges().subscribe(state => {
+          complete[i] = Math.round(state);
+          observer.next({state: complete} as State);
+        });
+        task.then(test => {
+          test.ref.getDownloadURL().then(url => {
+            arrayOfUrls.push(url);
+            if (arrayOfUrls.length === files.length) {
+              observer.next({array: arrayOfUrls} as State);
+              observer.complete();
+            }
+          });
+        });
+      }
+    });
+  }
 
   removeFile(url: string) {
     this.storage.storage.refFromURL(url).delete().then(() => console.log('Odstraněno.'));
