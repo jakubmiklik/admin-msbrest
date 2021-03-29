@@ -7,7 +7,7 @@
             <button id="remove" class="btn-secondary" (click)="removeFolder(i)">Smazat</button>
         </div>
     </div>
-    <div class="row flex list-item align-items-center justify-content-space-between" *ngFor="let file of files">
+    <div class="row flex list-item align-items-center justify-content-space-between" *ngFor="let file of documents">
         <a class="title flex align-items-center" [href]="file.src">
             <i class="material-icons">text_snippet</i>  {{file.name}}
         </a>

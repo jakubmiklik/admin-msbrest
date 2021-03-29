@@ -33,9 +33,11 @@ export class UploadComponent implements OnInit {
     public activatedRoute: ActivatedRoute
   ) { }
 
-  async ngOnInit() {
-    const param = (await this.activatedRoute.paramMap.toPromise()).get('category');
-    this.path = param ? decodeURI(param) : 'Documents';
+  ngOnInit() {
+    this.activatedRoute.paramMap.forEach(param => {
+      this.path = param.get('category') ? decodeURI(param.get('category')) : 'Documents';
+    })
+    
   }
 
   uploadInputClick() {

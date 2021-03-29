@@ -48,6 +48,9 @@ export class NewsDetailComponent implements OnInit {
     this.service.addFile(inputFiles, this.formData.id).subscribe((files) => {
       if (files.array !== undefined) {
         files.array.forEach((src, index) => {
+          if(!this.formData.files){
+            this.formData.files = [];
+          }
           this.formData.files.push(
           {
             src: src, 

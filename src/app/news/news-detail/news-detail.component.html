@@ -33,7 +33,7 @@
           </div>
       </div>
     </div>
-    <div *ngIf="formData.files.length !== 0" class="formGroup images-container flex">    
+    <div *ngIf="formData.files !== undefined" class="formGroup images-container flex">    
       <div *ngFor="let file of formData.files; let i = index" class="image-item flex">
         <div class="image flex align-items-center" *ngIf="file !== undefined">
           <div *ngIf="file.type.includes('image')">

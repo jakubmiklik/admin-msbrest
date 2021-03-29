@@ -11,7 +11,7 @@ import { FireStorageService } from '../firestorage.service';
 export class DocumentsComponent implements OnInit {
 
   folders;
-  files = [];
+  documents = [];
   path;
 
   constructor(
@@ -21,18 +21,23 @@ export class DocumentsComponent implements OnInit {
     public _snackBar: MatSnackBar,
   ) { }
 
-  async ngOnInit() {
-    const param = (await this.activatedRoute.paramMap.toPromise()).get('category');
-    this.path = param ? decodeURI(param) : 'Documents';
-    const list = await this.fireStorageService.getLists(this.path)
-    if(list.prefixes){
-      this.folders = list.prefixes;
-    }
-    if(list.items){
-      list.items.forEach(async (item) => {
-        this.files.push({name: item.name, src: await item.getDownloadURL()});
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      params.get('category') ? this.path = decodeURI(params.get('category')) : this.path = 'Documents';
+      this.fireStorageService.getLists(this.path).then(cat => {
+        if(cat.prefixes){
+          this.folders = cat.prefixes;
+        }
+        if(cat.items){
+          this.documents = [];
+          cat.items.forEach(e => {
+            e.getDownloadURL().then(f=> {
+              this.documents.push({name: e.name, src: f});
+            })
+          })
+        }
       });
-    }
+    });
   }
   removeFolder(index: number){
     this.folders[index].listAll().then((files) => {
