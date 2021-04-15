@@ -6,7 +6,7 @@
 $admin-msbrest-primary: mat-palette($mat-indigo);
 $admin-msbrest-accent: mat-palette($mat-pink, A200, A100, A400);
 $admin-msbrest-warn: mat-palette($mat-red);
-
+$admin-max-width: 1300px;
 $admin-msbrest-theme: mat-light-theme((
   color: (
     primary: $admin-msbrest-primary,
@@ -44,7 +44,7 @@ nav,
 }
 
 .container{ 
-	max-width: 1400px; 
+	max-width: $admin-max-width; 
 	margin: 0 auto;
 	@media screen and (orientation: landscape) {
 		padding: 60px 10px 0px 10px;
@@ -68,7 +68,7 @@ nav,
 }
 
 .main{ 
-	max-width: 1400px;
+	max-width: $admin-max-width;
 	@media screen and (orientation: portrait) {
 		padding: 10px;
 	}

@@ -24,17 +24,18 @@ export class NewsDetailComponent implements OnInit {
   }
 
   public Editor = ClassicEditor;
-  formData = new NewsClass('', '', '', [], 0);
+  formData: News = {id: '', date: 0, text: '', files: [], title: ''};
   files: FileList;
   complete: number[];
   inputText = 'Přidat soubory';
 
-  async ngOnInit() {
+  ngOnInit() {
     this.formData.files = [];
     if(!this.isNoveltyNew){
       this.route.paramMap.subscribe(async (params) => {
         this.formData.id = params.get('id');
         this.formData = (await this.getData(this.formData.id).toPromise()).data() as News;
+        console.log(this.formData);
       })
     }
   }
@@ -91,10 +92,5 @@ export class NewsDetailComponent implements OnInit {
 
   uploadInputClick() {
     document.getElementById('upload').click();
-  }
-}
-
-class NewsClass {
-  constructor(public id?: string, public title?: string, public text?: string, public files?: FileInfo[], public date?: number){
   }
 }

@@ -1,6 +1,7 @@
 <div class="list">
     <div class="row flex list-item align-items-center justify-content-space-between" *ngFor="let item of list">
       <div class="title">{{item.title}}</div>
+      <div class="title">{{item.id}}</div>
       <div class="flex">
         <button id="edit" class="btn-secondary" (click)="router.navigate(['/aktuality/upravit', item.id])">Editovat</button>
         <button id="remove" class="btn-secondary" (click)="service.removeItemFromList(item.id)">Smazat</button>

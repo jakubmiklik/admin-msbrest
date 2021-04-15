@@ -42,8 +42,10 @@ export class NewsService {
   }
 
   addNovelty(data: News) {
-    const ref = this.db.collection('articles').doc().ref;
-    ref.set(data)
+    const ref = this.db.collection('articles').ref.doc();
+    const id = ref.id;
+    data.id = id;
+    ref.set(data);
   }
 
   removeItemFromList(id: string) {
